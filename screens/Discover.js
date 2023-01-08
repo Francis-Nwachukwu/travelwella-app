@@ -6,15 +6,15 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
-import React, { useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { Avatar, Hotels, Attractions, Restaurants, NotFound } from "../assets";
 import MenuContainer from "../components/MenuContainer";
-import { FontAwesome } from "@expo/vector-icons";
 import ItemCardcontainer from "../components/ItemCardcontainer";
+import { getPlacesData } from "../api";
 
 const Discover = () => {
   const navigation = useNavigation();
@@ -26,6 +26,16 @@ const Discover = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getPlacesData().then((data) => {
+      setMainData(data);
+      setInterval(() => {
+        setIsLoading(false);
+      }, 2000);
     });
   }, []);
 
@@ -55,7 +65,7 @@ const Discover = () => {
       {/* Menu container */}
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#0B646B" />
+          {/* <ActivityIndicator size="large" color="#0B646B" /> */}
         </View>
       ) : (
         <ScrollView>
@@ -105,22 +115,18 @@ const Discover = () => {
           <View className="mt-8 flex-row items-center justify-evenly flex-wrap">
             {mainData?.length > 0 ? (
               <>
-                <ItemCardcontainer
-                  key={101}
-                  imageSrc={
-                    "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  }
-                  title="Something"
-                  location="Doha"
-                />
-                <ItemCardcontainer
-                  key={102}
-                  imageSrc={
-                    "https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  }
-                  title="Sample"
-                  location="Qatar"
-                />
+                {mainData?.map((data, i) => (
+                  <ItemCardcontainer
+                    key={i}
+                    imageSrc={
+                      data?.photo?.images?.medium?.url
+                        ? data?.photo?.images?.medium?.url
+                        : "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    }
+                    title={data?.name}
+                    location={data?.location_string}
+                  />
+                ))}
               </>
             ) : (
               <>

@@ -9,15 +9,21 @@ const ItemCardcontainer = ({ imageSrc, title, location }) => {
         source={{ uri: imageSrc }}
         className="w-full h-40 rounded-md object-cover"
       />
-      <Text className="text-[#428288] text-[18px] font-bold">
-        {title.length > 14 ? `${title.slice(0, 14)}...` : title}
-      </Text>
-      <View className="flex-row items-center space-x-1">
-        <FontAwesome name="map-marker" size={20} color="#8597A2" />
-        <Text className="text-[#428288] text-[14px] font-bold">
-          {location.length > 10 ? `${location.slice(0, 10)}...` : location}
-        </Text>
-      </View>
+      {title ? (
+        <>
+          <Text className="text-[#428288] text-[18px] font-bold">
+            {title.length > 14 ? `${title.slice(0, 14)}...` : title}
+          </Text>
+          <View className="flex-row items-center space-x-1">
+            <FontAwesome name="map-marker" size={20} color="#8597A2" />
+            <Text className="text-[#428288] text-[14px] font-bold">
+              {location.length > 10 ? `${location.slice(0, 10)}...` : location}
+            </Text>
+          </View>
+        </>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
