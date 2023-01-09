@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -65,7 +66,7 @@ const Discover = () => {
       {/* Menu container */}
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
-          {/* <ActivityIndicator size="large" color="#0B646B" /> */}
+          <ActivityIndicator size="large" color="#0B646B" />
         </View>
       ) : (
         <ScrollView>
@@ -125,6 +126,7 @@ const Discover = () => {
                     }
                     title={data?.name}
                     location={data?.location_string}
+                    data={data}
                   />
                 ))}
               </>
