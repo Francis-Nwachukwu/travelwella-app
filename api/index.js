@@ -8,7 +8,7 @@ export const getPlacesData = async () => {
       `https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary`,
       {
         params: {
-          bl_latitude: "11.847676",
+          bl_latitude: "25.847676",
           tr_latitude: "12.838442",
           bl_longitude: "109.095887",
           tr_longitude: "109.149359",

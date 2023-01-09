@@ -36,7 +36,7 @@ const Discover = () => {
       setMainData(data);
       setInterval(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 1000);
     });
   }, []);
 
