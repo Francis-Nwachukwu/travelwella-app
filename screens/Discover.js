@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { Avatar, Hotels, Attractions, Restaurants, NotFound } from "../assets";
 import MenuContainer from "../components/MenuContainer";
@@ -57,9 +58,18 @@ const Discover = () => {
       </View>
 
       <View className="flex-row items-center bg-white mt-4 mx-4 rounded-xl py-1 px-4 shadow-lg">
-        <TextInput
+        <GooglePlacesAutocomplete
+          GooglePlacesDetailsQuery={{ fields: "geometry" }}
           placeholder="Search"
-          className="w-full p-2 border border-[#00BCC9]"
+          fetchDetails={true}
+          onPress={(data, details = null) => {
+            // 'details' is provided when fetchDetails = true
+            console.log(details?.geometry?.viewport);
+          }}
+          query={{
+            key: "AIzaSyCehKtxnmbXXTvs1fExI-RUa7jcrODffrg",
+            language: "en",
+          }}
         />
       </View>
 
