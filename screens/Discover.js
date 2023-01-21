@@ -24,6 +24,10 @@ const Discover = () => {
   const [type, setType] = useState("restaurants");
   const [isLoading, setIsLoading] = useState(false);
   const [mainData, setMainData] = useState([]);
+  const [bl_lat, setBl_lat] = useState(null);
+  const [bl_lng, setBl_lng] = useState(null);
+  const [tr_lat, setTr_lat] = useState(null);
+  const [tr_lng, setTr_lng] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,13 +37,13 @@ const Discover = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getPlacesData().then((data) => {
+    getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then((data) => {
       setMainData(data);
       setInterval(() => {
         setIsLoading(false);
       }, 1000);
     });
-  }, []);
+  }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
   return (
     <SafeAreaView className="flex-1 bg-white relative">
@@ -65,6 +69,10 @@ const Discover = () => {
           onPress={(data, details = null) => {
             // 'details' is provided when fetchDetails = true
             console.log(details?.geometry?.viewport);
+            setBl_lat(details?.geometry?.viewport?.southwest?.lat);
+            setBl_lng(details?.geometry?.viewport?.southwest?.lng);
+            setTr_lat(details?.geometry?.viewport?.northeast?.lat);
+            setTr_lng(details?.geometry?.viewport?.northeast?.lng);
           }}
           query={{
             key: "AIzaSyCehKtxnmbXXTvs1fExI-RUa7jcrODffrg",
@@ -82,7 +90,7 @@ const Discover = () => {
         <ScrollView>
           <View className="flex-row items-center justify-between px-6 mt-8">
             <MenuContainer
-              key={"hotel"}
+              key={"hotels"}
               title="Hotels"
               imageSrc={Hotels}
               type={type}
@@ -126,19 +134,22 @@ const Discover = () => {
           <View className="mt-8 flex-row items-center justify-evenly flex-wrap">
             {mainData?.length > 0 ? (
               <>
-                {mainData?.map((data, i) => (
-                  <ItemCardcontainer
-                    key={i}
-                    imageSrc={
-                      data?.photo?.images?.medium?.url
-                        ? data?.photo?.images?.medium?.url
-                        : "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    }
-                    title={data?.name}
-                    location={data?.location_string}
-                    data={data}
-                  />
-                ))}
+                {mainData?.map((data, i) => {
+                  if (data?.photo)
+                    return (
+                      <ItemCardcontainer
+                        key={i}
+                        imageSrc={
+                          data?.photo?.images?.medium?.url
+                            ? data?.photo?.images?.medium?.url
+                            : "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=400"
+                        }
+                        title={data?.name}
+                        location={data?.location_string}
+                        data={data}
+                      />
+                    );
+                })}
               </>
             ) : (
               <>

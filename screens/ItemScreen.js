@@ -51,16 +51,18 @@ const ItemScreen = ({ route }) => {
           </View>
 
           <View className="absolute flex-row flex-wrap inset-x-0 bottom-5 px-6 justify-between">
-            <View className="flex-row space-x-2 items-center">
+            <View className="flex-row rounded-md space-x-2 items-center bg-teal-100">
               {/* <Text className="text-[12px] font-bold text-gray-100">
                 {data?.price_level}
               </Text> */}
-              <Text className="text-[32px] font-bold text-gray-100">
-                {data?.price}
+              <Text className="text-[24px] px-2 py-1 font-bold text-black">
+                {data?.price ? data?.price : ""}
               </Text>
             </View>
-            <View className="px-2 py-1 rounded-md bg-teal-100">
-              <Text>{data?.open_now_text}</Text>
+            <View className="px-2 py-1  rounded-md bg-teal-100">
+              <Text className="font-bold">
+                {data?.open_now_text ? data?.open_now_text : "Open Now"}
+              </Text>
             </View>
           </View>
         </View>
@@ -90,14 +92,14 @@ const ItemScreen = ({ route }) => {
               </View>
             </View>
           )}
-          {data?.price && (
+          {data?.price_level && (
             <View className="flex-row items-center space-x-2">
               <View className="w-12 h-12 rounded-2xl bg-red-100 items-center justify-center shadow-md">
                 <MaterialIcons name="attach-money" size={24} color="black" />
               </View>
               <View>
-                <Text className="text-[#515151]">{data?.price}</Text>
-                <Text className="text-[#515151]">Price</Text>
+                <Text className="text-[#515151]">{data?.price_level}</Text>
+                <Text className="text-[#515151]">Price level</Text>
               </View>
             </View>
           )}
@@ -116,15 +118,19 @@ const ItemScreen = ({ route }) => {
 
         {data?.description ? (
           <View>
-            <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6Af]">
+            <Text className="mt-4 tracking-wide text-[16px] font-semibold">
               {data?.description}
             </Text>
           </View>
         ) : (
-          ""
+          <View>
+            <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6Af]">
+              No description for this restaurant.
+            </Text>
+          </View>
         )}
 
-        {data?.cuisine && (
+        {data?.cuisine ? (
           <View className="flex-row gap-2 items-center justify-start flex-wrap mt-4">
             {data?.cuisine.map((item) => (
               <TouchableOpacity
@@ -135,25 +141,61 @@ const ItemScreen = ({ route }) => {
               </TouchableOpacity>
             ))}
           </View>
+        ) : (
+          <View>
+            <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6Af]">
+              No cuisine available.
+            </Text>
+          </View>
         )}
 
+        {data?.ranking ? (
+          <View>
+            <Text className="mt-4 tracking-wide text-[16px] font-semibold">
+              {data?.ranking}
+            </Text>
+          </View>
+        ) : (
+          <View>
+            <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6Af]">
+              No ranking available.
+            </Text>
+          </View>
+        )}
         <View className="space-y-2 mt-4 bg-gray-100 rounded-2xl px-4 py-2">
-          {data?.phone && (
+          {data?.phone ? (
             <View className="items-center flex-row space-x-6">
               <FontAwesome name="phone" size={24} color="#428288" />
               <Text className="text-lg">{data?.phone}</Text>
             </View>
-          )}
-          {data?.email && (
+          ) : (
             <View className="items-center flex-row space-x-6">
               <FontAwesome name="phone" size={24} color="#428288" />
-              <Text className="text-lg">{data?.email}</Text>
+              <Text className="text-lg text-[#97A6Af]">No phone</Text>
             </View>
           )}
-          {data?.address && (
+          {data?.email ? (
+            <View className="items-center flex-row space-x-6">
+              <FontAwesome name="phone" size={24} color="#428288" />
+              <Text className="text-lg ">{data?.email}</Text>
+            </View>
+          ) : (
+            <View className="items-center flex-row space-x-6">
+              <FontAwesome name="phone" size={24} color="#428288" />
+              <Text className="text-lg text-[#97A6Af]">No email</Text>
+            </View>
+          )}
+          {data?.address ? (
             <View className="items-center flex-row space-x-6">
               <FontAwesome name="phone" size={24} color="#428288" />
               <Text className="text-lg">{data?.address}</Text>
+            </View>
+          ) : (
+            <View className="items-center flex-row space-x-6">
+              <FontAwesome name="phone" size={24} color="#428288" />
+              <Text className="text-lg text-[#97A6Af]">
+                Address not available.
+              </Text>
             </View>
           )}
         </View>
