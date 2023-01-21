@@ -4,10 +4,10 @@
     "slug": "travelwella",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/restaurants.png",
+    "icon": "./assets/online-order.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/restaurants.png",
+      "image": "./assets/online-order.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
